@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body class="bg-dark">
+    <div class="container pt-5">
+       
+        <div class="text-center pb-2">
+            <h1 class="text-uppercase text-white">Giphy party</h1>
+         
+                <input type="text" placeholder="enter a search item" id="searching-keyword">
+                <input type="number" min="1" max="50" placeholder="enter number of items" id="items-amount">
+                <input type="submit" class="btn btn-secondary" value="search giphy" id="submit-button">
+                <input type="button" class="btn btn-danger" value="Remove Image" id="remove-button">
+                
+        </div>
+        <div id="result">
+
+        </div>
+
+    </div>
+    <script>
+    let API_KEY = 'jZSkZJliINcohOFBxfzZ6J9DZVFCrCUV';
+    let imageArr=[];
+    let searchingkeyword = document.getElementById("searching-keyword");
+    let itemsamount = document.getElementById("items-amount"); 
+    let submitbutton = document.getElementById("submit-button");
+    let removebutton= document.getElementById("remove-button");
+    const getImage= (keyword,amount)=>{
+    axios.get('http://api.giphy.com/v1/gifs/search',{
+        params: {
+            q: keyword,
+            api_key: API_KEY
+        }
+    })
+    .then(res=>{
+        let resArr=res.data.data;
+        for(let i=0;i<amount;i++){
+            imageArr.push(resArr[i].images.preview_gif.url);
+        
+        }
+        displayImage();
+    })
+
+    .catch(error=>console.log(error));
+}
+//getImage("Nam",5);
+submitbutton.addEventListener("click",()=>{
+    let keyword = searchingkeyword.value;
+    let amount = itemsamount.value;
+    getImage(keyword,amount);
+   
+    
+})
+const displayImage =()=>{
+    let html="";
+    for(let i=0;i<imageArr.length;i++)
+    {
+        html+='<img class="img-thumbnail" src="'+imageArr[i]+'" alt="">';
+    }
+    result.innerHTML=html;
+}
+removebutton.addEventListener("click",()=>{
+    result.innerHTML='';
+    imageArr=[];
+})
+    </script>
+</body>
+</html>
