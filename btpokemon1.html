@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+    <script>
+    axios.get('https://pokeapi.co/api/v2/pokemon?limit=100&offset=200')
+    .then(function (response){
+        let st='<table border=1>';
+        for(let i=0;i<response.data.results.length;i++){
+            st=st+"<tr><td>"+(i+1)+"</td><td>"+response.data.results[i].name+"</td><td><a href=''>Click</a></td></tr>";
+        }
+        st=st+"</table>";
+        document.write(st+"<br/>");
+        let count = response.data.results.length;
+        document.write("Total: "+count+" &nbsp");
+        let element_next = "<a href='' id='next'>Next</a>";
+        document.write(element_next+" &nbsp &nbsp"); 
+        
+        let element_previous = "<a href='' id='previous'>Previous</a>";
+        document.write(element_previous);
+        let input = document.getElementById("next");
+        input.onclick= function(){
+    show1();
+    //show2();
+   };
+   function show1(){
+    
+   }
+        })
+    .catch(function(error){
+        console.log(error);
+    })
+
+</script>
+</body>
+</html>
